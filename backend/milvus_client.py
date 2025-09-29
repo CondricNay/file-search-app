@@ -67,7 +67,6 @@ insert_result = milvus_client.insert(collection_name=collection_name, data=raw_d
 
 print("Inserted", insert_result["insert_count"], "images into Milvus.")
 
-
 query_text = "flying"
 query_embedding = encode_text(query_text)
 
