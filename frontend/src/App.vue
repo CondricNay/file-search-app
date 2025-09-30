@@ -2,7 +2,7 @@
   <div>
     <ImageUploader @files-selected="uploadFiles" />
     <SearchBar @search="handleSearch" />
-    <ImageList :images="filteredImages" />
+    <ImageList :images="filteredImages" @delete-image="deleteImage" />
   </div>
 </template>
 
@@ -18,7 +18,7 @@ const searchQuery = ref('')
 
 async function loadImages() {
   try {
-    const res = await axios.get('http://localhost:8000/images_list')
+    const res = await axios.get('http://localhost:8000/images')
     results.value = res.data
   } catch (err) {
     console.error('Failed to load images:', err)
@@ -42,6 +42,15 @@ async function uploadFiles(files) {
 
 function handleSearch(query) {
   searchQuery.value = query
+}
+
+async function deleteImage(id) {
+  try {
+    await axios.delete(`http://localhost:8000/images/${id}`);
+    await loadImages(); // refresh the images after deletion
+  } catch (err) {
+    console.error('Failed to delete image:', err);
+  }
 }
 
 const filteredImages = computed(() => {
