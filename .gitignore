@@ -44,3 +44,6 @@ Thumbs.db
 
 # Jupyter notebooks checkpoints
 .ipynb_checkpoints/
+
+# Milvus / database files
+backend/volumes/

@@ -40,8 +40,24 @@ async function uploadFiles(files) {
   await loadImages() // refresh after upload
 }
 
-function handleSearch(query) {
-  searchQuery.value = query
+async function handleSearch(query) {
+  if (!query) {
+    searchQuery.value = ''
+    results.value = await axios.get('http://localhost:8000/images').then(r => r.data)
+    return
+  }
+
+  try {
+    const res = await axios.post('http://localhost:8000/search', {
+      query_text: query,
+      top_k: 10
+    })
+    // Milvus search returns [{id, url}]
+    results.value = res.data
+    searchQuery.value = query
+  } catch (err) {
+    console.error('Search failed:', err)
+  }
 }
 
 async function deleteImage(id) {
@@ -53,12 +69,7 @@ async function deleteImage(id) {
   }
 }
 
-const filteredImages = computed(() => {
-  if (!searchQuery.value) return results.value
-  return results.value.filter(img =>
-    img.url.toLowerCase().includes(searchQuery.value.toLowerCase())
-  )
-})
+const filteredImages = computed(() => results.value)
 
 onMounted(() => loadImages())
 </script>
