@@ -52,8 +52,9 @@ async function handleSearch(query) {
       query_text: query,
       top_k: 10
     })
-    // Milvus search returns [{id, url}]
-    results.value = res.data
+    // Milvus search returns [{id, url}] -> Convert to unique set
+    const image_set = [...new Map(res.data.map(img => [img.id, img])).values()]
+    results.value = image_set;
     searchQuery.value = query
   } catch (err) {
     console.error('Search failed:', err)
