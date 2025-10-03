@@ -7,7 +7,8 @@ An end-to-end **image upload and search application** built with:
 - **Milvus** – Vector database for image embeddings and similarity search  
 - **Axios** – API communication between frontend and backend  
 
-This app allows you to **upload images, search similar images by text query, and delete images** from the database.
+This app allows you to **upload images, search similar images by text query, and delete images** from the database.  
+Uploaded images are stored **locally** on the backend server, while embeddings and metadata are stored in Milvus.  
 
 ---
 
@@ -46,7 +47,7 @@ This app allows you to **upload images, search similar images by text query, and
 
 Run the backend server:
 
-    uvicorn main:app --reload --host 0.0.0.0 --port 8000
+    uvicorn main:app --reload
 
 This will start the API at [http://localhost:8000](http://localhost:8000).
 
@@ -77,12 +78,13 @@ This will start the Vue app at [http://localhost:5173](http://localhost:5173) (d
 2. Drag & drop images or click to upload.  
 3. Use the search bar to find similar images.  
 4. Delete images by clicking the ❌ button.  
+5. (Optional) Open the **Milvus Web UI** at [http://localhost:9091/webui](http://localhost:9091/webui) to inspect collections, data, and system status.  
 
 ---
 
 ## 🛠️ Development Notes
 
-- Uploaded images are stored in a folder on the backend (`image_folder/`).  
+- Uploaded images are stored **locally** in a folder on the backend (`image_folder/`).  
 - Metadata and embeddings are stored in **Milvus**.  
 - Make sure Milvus is running before starting the backend.  
 
@@ -93,4 +95,6 @@ To start Milvus (Docker example):
       -p 9091:9091 \
       milvusdb/milvus:latest
 
----
+Then open the Milvus Web UI in your browser:  
+
+    http://localhost:9091/webui
